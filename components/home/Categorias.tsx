@@ -13,7 +13,7 @@ export function Categorias() {
         </h2>
 
         {/* Tabs */}
-        <div className="flex justify-center gap-8 mb-10 border-b border-cf-border">
+        <div className="flex flex-wrap justify-center gap-x-6 sm:gap-x-8 gap-y-2 mb-10 border-b border-cf-border">
           <button className="pb-3 text-sm font-semibold text-cf-primary border-b-2 border-cf-accent">
             Servicios de oficio
           </button>

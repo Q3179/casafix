@@ -65,14 +65,14 @@ export function ChatbotPanel({ onClose }: ChatbotPanelProps) {
   }
 
   return (
-    <div className="fixed bottom-24 right-6 z-50 w-[340px] h-[480px] bg-white rounded-xl shadow-2xl border border-[#E8E6E1] flex flex-col overflow-hidden">
+    <div className="fixed bottom-44 right-4 left-4 sm:bottom-24 sm:left-auto sm:right-6 z-50 sm:w-[340px] h-[480px] max-h-[calc(100vh-12rem)] sm:max-h-[calc(100vh-7rem)] bg-white rounded-xl shadow-2xl border border-[#E8E6E1] flex flex-col overflow-hidden">
       {/* Header */}
       <div className="bg-[#1E3A5F] text-white px-4 py-3 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 min-w-0">
           <span className="font-semibold">CasaFix</span>
-          <span className="text-white/40">&middot;</span>
-          <span className="text-sm text-white/80">Consultas</span>
-          <span className="w-2 h-2 bg-green-400 rounded-full" />
+          <span className="text-white/40 hidden sm:inline">&middot;</span>
+          <span className="text-sm text-white/80 hidden sm:inline">Consultas</span>
+          <span className="w-2 h-2 bg-green-400 rounded-full shrink-0" />
           <span className="text-xs text-white/60">En línea</span>
         </div>
         <button

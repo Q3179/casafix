@@ -18,50 +18,50 @@ export function PasoResumen({ prestador, onNext, onBack }: Props) {
         <h3 className="font-semibold text-cf-primary">Resumen de cotización</h3>
 
         <div className="space-y-3 text-sm">
-          <div className="flex justify-between">
-            <span className="text-cf-text-light">Prestador</span>
-            <span className="font-medium text-cf-text">{prestador.nombre}</span>
+          <div className="flex justify-between gap-3">
+            <span className="text-cf-text-light shrink-0">Prestador</span>
+            <span className="font-medium text-cf-text text-right break-words min-w-0">{prestador.nombre}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-cf-text-light">Oficio</span>
-            <span className="font-medium text-cf-text">{prestador.oficio}</span>
+          <div className="flex justify-between gap-3">
+            <span className="text-cf-text-light shrink-0">Oficio</span>
+            <span className="font-medium text-cf-text text-right break-words min-w-0">{prestador.oficio}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-cf-text-light">Zona</span>
-            <span className="font-medium text-cf-text">{prestador.zonas.join(', ')}</span>
+          <div className="flex justify-between gap-3">
+            <span className="text-cf-text-light shrink-0">Zona</span>
+            <span className="font-medium text-cf-text text-right break-words min-w-0">{prestador.zonas.join(', ')}</span>
           </div>
 
           <div className="border-t border-cf-border pt-3">
-            <div className="flex justify-between">
-              <span className="text-cf-text-light">Descripción</span>
-              <span className="font-medium text-cf-text text-right max-w-[60%]">
+            <div className="flex justify-between gap-3">
+              <span className="text-cf-text-light shrink-0">Descripción</span>
+              <span className="font-medium text-cf-text text-right break-words min-w-0 max-w-[60%]">
                 {reserva?.descripcion ?? '-'}
               </span>
             </div>
           </div>
 
-          <div className="flex justify-between">
-            <span className="text-cf-text-light">Dirección</span>
-            <span className="font-medium text-cf-text">{reserva?.direccion ?? '-'}</span>
+          <div className="flex justify-between gap-3">
+            <span className="text-cf-text-light shrink-0">Dirección</span>
+            <span className="font-medium text-cf-text text-right break-words min-w-0">{reserva?.direccion ?? '-'}</span>
           </div>
 
-          <div className="flex justify-between">
-            <span className="text-cf-text-light">Fecha y hora</span>
-            <span className="font-medium text-cf-text">{reserva?.fechaHora ?? '-'}</span>
+          <div className="flex justify-between gap-3">
+            <span className="text-cf-text-light shrink-0">Fecha y hora</span>
+            <span className="font-medium text-cf-text text-right break-words min-w-0">{reserva?.fechaHora ?? '-'}</span>
           </div>
 
           <div className="border-t border-cf-border pt-3">
-            <div className="flex justify-between">
-              <span className="text-cf-text-light">Rango de precio</span>
-              <span className="font-medium text-cf-primary">
+            <div className="flex justify-between gap-3">
+              <span className="text-cf-text-light shrink-0">Rango de precio</span>
+              <span className="font-medium text-cf-primary text-right break-words min-w-0">
                 {prestador.servicios[0]?.precio ?? '-'}
               </span>
             </div>
           </div>
 
-          <div className="flex justify-between text-base">
-            <span className="font-semibold text-cf-text">Total estimado</span>
-            <span className="font-bold text-cf-primary">
+          <div className="flex justify-between gap-3 text-base">
+            <span className="font-semibold text-cf-text shrink-0">Total estimado</span>
+            <span className="font-bold text-cf-primary text-right break-words min-w-0">
               ${prestador.precioDesde.toLocaleString('es-AR')}
             </span>
           </div>

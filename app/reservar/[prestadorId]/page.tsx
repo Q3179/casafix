@@ -35,7 +35,7 @@ export default function ReservarPage() {
             const isActive = paso === stepNum;
             const isDone = paso > stepNum;
             return (
-              <div key={label} className="flex items-center gap-2 flex-1">
+              <div key={label} className="flex items-center gap-1 sm:gap-2 flex-1 min-w-0">
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
                     isActive
@@ -48,7 +48,7 @@ export default function ReservarPage() {
                   {isDone ? '\u2713' : stepNum}
                 </div>
                 <span
-                  className={`text-xs font-medium hidden sm:inline ${
+                  className={`text-xs font-medium hidden sm:inline truncate ${
                     isActive ? 'text-cf-primary' : 'text-cf-text-muted'
                   }`}
                 >
@@ -56,7 +56,7 @@ export default function ReservarPage() {
                 </span>
                 {i < STEP_LABELS.length - 1 && (
                   <div
-                    className={`flex-1 h-0.5 mx-2 ${
+                    className={`flex-1 h-0.5 mx-1 sm:mx-2 ${
                       isDone ? 'bg-[#2A9D8F]' : 'bg-cf-border'
                     }`}
                   />

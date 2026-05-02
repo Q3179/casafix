@@ -42,7 +42,7 @@ export default function CategoriaPage() {
           </p>
         </div>
 
-        <div className="flex gap-8">
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar filters — desktop */}
           <aside className="hidden lg:block w-56 shrink-0">
             <FiltrosLaterales

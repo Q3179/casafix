@@ -11,7 +11,9 @@ const CATEGORIAS = [
 const EMPRESA = [
   { href: '/#como-funciona', label: 'Cómo funciona' },
   { href: '/proteccion', label: 'Protección' },
+  { href: '/profesionales', label: 'Para profesionales' },
   { href: '/prestadores/registro', label: 'Para prestadores' },
+  { href: '/administradores', label: 'Para administradores' },
 ];
 
 export function Footer() {

@@ -6,6 +6,7 @@ import {
   PagoProtegidoIcon,
   MediacionIcon,
 } from '@/components/icons/ProteccionIcons';
+import { ComisionInfo } from '@/components/shared/ComisionInfo';
 
 export const metadata: Metadata = {
   title: 'Protección CasaFix — Cómo te cuidamos',
@@ -37,20 +38,21 @@ const CAPAS = [
   },
   {
     icon: PagoProtegidoIcon,
-    titulo: 'Pago protegido',
+    titulo: 'Pago retenido',
     descripcion:
-      'Tu dinero queda retenido en escrow hasta que confirmés que el trabajo está bien hecho. El prestador cobra solo cuando vos das el OK.',
+      'Tu dinero queda retenido hasta que confirmés que el trabajo está bien hecho. El prestador cobra solo cuando vos das el OK.',
     items: [
       'Retención del pago hasta confirmación',
       'Foto después como evidencia del resultado',
       'Liberación del pago cuando estés conforme',
+      'Para trabajos con materiales, el adelanto correspondiente se libera al inicio contra comprobante. Solo el monto de mano de obra queda retenido.',
     ],
   },
   {
     icon: MediacionIcon,
     titulo: 'Mediación si algo falla',
     descripcion:
-      'Si hay un desacuerdo con el prestador, nuestro equipo interviene para encontrar una solución justa. No quedás solo ante un problema.',
+      'Si hay un desacuerdo con el prestador, intervenimos para mediar entre las partes y encontrar una salida razonable. Acompañamos el proceso, sin garantizar el resultado final.',
     items: [
       'Equipo dedicado de mediación',
       'Análisis de evidencias (fotos antes/después)',
@@ -69,7 +71,7 @@ export default function ProteccionPage() {
             Protección CasaFix
           </p>
           <h1 className="text-4xl font-bold text-white mb-4">
-            Mediamos, acompañamos y respondemos
+            Mediamos y acompañamos cuando algo no sale bien
           </h1>
           <p className="text-lg text-white/80">
             Conocé las 4 capas de protección que tenés al contratar con CasaFix.
@@ -103,9 +105,9 @@ export default function ProteccionPage() {
                   </p>
                   <ul className="space-y-2">
                     {capa.items.map((item) => (
-                      <li key={item} className="flex items-center gap-2 text-sm text-cf-text">
-                        <CheckCircle2 size={16} className="text-[#2A9D8F] shrink-0" />
-                        {item}
+                      <li key={item} className="flex items-start gap-2 text-sm text-cf-text">
+                        <CheckCircle2 size={16} className="text-[#2A9D8F] shrink-0 mt-0.5" />
+                        <span>{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -113,6 +115,8 @@ export default function ProteccionPage() {
               </div>
             </div>
           ))}
+
+          <ComisionInfo tipo="B2C" />
         </div>
       </section>
     </div>

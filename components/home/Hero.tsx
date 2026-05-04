@@ -9,7 +9,7 @@ import { CATEGORIAS_OFICIO } from '@/lib/mock-data';
 const MICROBADGES = [
   { icon: ShieldCheck, label: 'Prestadores verificados' },
   { icon: DollarSign, label: 'Precios claros' },
-  { icon: Lock, label: 'Pagos protegidos' },
+  { icon: Lock, label: 'Pago retenido' },
   { icon: Users, label: 'Mediación si falla' },
 ];
 
@@ -47,39 +47,63 @@ export function Hero() {
 
           {/* Center column — search */}
           <div className="bg-white/10 backdrop-blur rounded-xl p-6 space-y-4">
-            <select
-              value={zona}
-              onChange={(e) => setZona(e.target.value)}
-              className="w-full bg-white rounded-lg px-4 py-3 text-sm text-gray-700 outline-none"
-              aria-label="Zona"
-            >
-              <option value="pilar-del-este">Pilar del Este (detectado)</option>
-              <option value="pilar-centro">Pilar Centro</option>
-              <option value="nordelta">Nordelta</option>
-              <option value="tigre">Tigre</option>
-              <option value="escobar">Escobar</option>
-            </select>
+            <div className="space-y-1">
+              <label
+                htmlFor="hero-zona"
+                className="block text-xs font-medium text-white/80 uppercase tracking-wide"
+              >
+                ¿En qué zona necesitás el servicio?
+              </label>
+              <select
+                id="hero-zona"
+                value={zona}
+                onChange={(e) => setZona(e.target.value)}
+                className="w-full bg-white rounded-lg px-4 py-3 text-sm text-gray-700 outline-none"
+              >
+                <option value="pilar-del-este">Pilar del Este (detectado)</option>
+                <option value="pilar-centro">Pilar Centro</option>
+                <option value="nordelta">Nordelta</option>
+                <option value="tigre">Tigre</option>
+                <option value="escobar">Escobar</option>
+              </select>
+            </div>
 
-            <select
-              value={categoria}
-              onChange={(e) => setCategoria(e.target.value)}
-              className="w-full bg-white rounded-lg px-4 py-3 text-sm text-gray-700 outline-none"
-              aria-label="Categoría"
-            >
-              <option value="">Categoría de servicio</option>
-              {CATEGORIAS_OFICIO.map((cat) => (
-                <option key={cat.slug} value={cat.slug}>
-                  {cat.nombre}
-                </option>
-              ))}
-            </select>
+            <div className="space-y-1">
+              <label
+                htmlFor="hero-categoria"
+                className="block text-xs font-medium text-white/80 uppercase tracking-wide"
+              >
+                ¿Qué tipo de trabajo necesitás?
+              </label>
+              <select
+                id="hero-categoria"
+                value={categoria}
+                onChange={(e) => setCategoria(e.target.value)}
+                className="w-full bg-white rounded-lg px-4 py-3 text-sm text-gray-700 outline-none"
+              >
+                <option value="">Categoría de servicio</option>
+                {CATEGORIAS_OFICIO.map((cat) => (
+                  <option key={cat.slug} value={cat.slug}>
+                    {cat.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-            <input
-              type="text"
-              placeholder="¿Qué necesitás?"
-              className="w-full bg-white rounded-lg px-4 py-3 text-sm text-gray-700 outline-none placeholder:text-gray-400"
-              aria-label="Descripción de la necesidad"
-            />
+            <div className="space-y-1">
+              <label
+                htmlFor="hero-descripcion"
+                className="block text-xs font-medium text-white/80 uppercase tracking-wide"
+              >
+                Contanos en pocas palabras
+              </label>
+              <input
+                id="hero-descripcion"
+                type="text"
+                placeholder="¿Qué necesitás?"
+                className="w-full bg-white rounded-lg px-4 py-3 text-sm text-gray-700 outline-none placeholder:text-gray-400"
+              />
+            </div>
 
             <button
               onClick={handleSearch}

@@ -7,9 +7,9 @@ import { Logo } from './Logo';
 
 const NAV_LINKS = [
   { href: '/prestadores/plomeria', label: 'Servicios' },
+  { href: '/profesionales', label: 'Profesionales' },
   { href: '/#como-funciona', label: 'Cómo funciona' },
   { href: '/proteccion', label: 'Protección' },
-  { href: '/empresas', label: 'Empresas' },
 ];
 
 export function Navbar() {

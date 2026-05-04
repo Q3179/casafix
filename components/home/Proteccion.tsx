@@ -18,7 +18,7 @@ const ITEMS = [
   },
   {
     icon: PagoProtegidoIcon,
-    titulo: 'Pago protegido',
+    titulo: 'Pago retenido',
     descripcion: 'Tu dinero queda retenido hasta que confirmés que el trabajo está bien.',
   },
   {
@@ -36,10 +36,10 @@ export function Proteccion() {
           Protección CasaFix
         </p>
         <h2 className="text-3xl font-bold text-cf-primary mb-3">
-          Mediamos, acompañamos y respondemos
+          Mediamos y acompañamos cuando algo no sale bien
         </h2>
         <p className="text-cf-text-light mb-10">
-          Más control, menos riesgo en cada contratación.
+          Más respaldo y menos fricción en cada contratación.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

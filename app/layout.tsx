@@ -12,12 +12,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'CasaFix — Servicios para el hogar en barrios privados',
+  title: 'CasaFix — Servicios verificados para hogares y profesionales',
   description:
-    'Marketplace de servicios para el hogar con prestadores verificados y precios claros para barrios privados del GBA Norte.',
+    'Marketplace de servicios para el hogar y para profesionales (inmobiliarias, constructoras, arquitectos) con prestadores verificados en barrios privados del GBA Norte.',
   openGraph: {
-    title: 'CasaFix — Servicios para el hogar',
-    description: 'Prestadores verificados y precios claros para barrios privados del GBA Norte.',
+    title: 'CasaFix — Servicios verificados para hogares y profesionales',
+    description:
+      'Marketplace de servicios para el hogar y para profesionales (inmobiliarias, constructoras, arquitectos) con prestadores verificados en barrios privados del GBA Norte.',
     type: 'website',
   },
 };

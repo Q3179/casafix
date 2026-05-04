@@ -47,7 +47,7 @@ export function AdminConsorcios() {
             Ofrecé a tus vecinos un directorio de prestadores verificados con precios claros.
           </p>
           <Link
-            href="/empresas"
+            href="/administradores"
             className="inline-block bg-cf-primary text-white rounded-lg px-6 py-2.5 font-medium hover:bg-cf-primary-dark transition-colors"
           >
             Conocer plan &rarr;

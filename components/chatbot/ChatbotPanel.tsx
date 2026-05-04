@@ -7,16 +7,30 @@ interface Message {
   id: string;
   text: string;
   sender: 'bot' | 'user';
+  buttons?: { label: string; intent: string }[];
 }
 
-const SUGGESTIONS = [
-  '¿Cómo funciona Protección CasaFix?',
-  'Quiero ser prestador',
-  'Tengo un problema con un trabajo',
+const PROBLEMA_TRABAJO_INTENT = 'problema-trabajo';
+const TRABAJO_REALIZADO_INTENT = 'trabajo-realizado';
+const POR_CONTRATAR_INTENT = 'por-contratar';
+
+const SUGGESTIONS: { label: string; intent: string }[] = [
+  { label: '¿Cómo funciona Protección CasaFix?', intent: 'proteccion' },
+  { label: 'Quiero ser prestador', intent: 'prestador' },
+  { label: 'Tengo un problema con un trabajo', intent: PROBLEMA_TRABAJO_INTENT },
 ];
 
-const BOT_RESPONSE =
+const DEFAULT_RESPONSE =
   'Gracias por tu consulta. Un asesor te va a responder en breve. También podés llamarnos al WhatsApp.';
+
+const PROBLEMA_CLARIFY_TEXT =
+  'Antes de seguir, ¿te referís a un trabajo que YA SE REALIZÓ y tuviste un problema con el resultado? ¿O es un trabajo que estás por contratar?';
+
+const TRABAJO_REALIZADO_RESPONSE =
+  'Entendido. Si el trabajo ya se realizó y tuviste un problema, podemos abrir un caso de mediación. Un asesor te va a contactar en breve para revisar las evidencias (fotos antes/después y descripción) y mediar entre las partes.';
+
+const POR_CONTRATAR_RESPONSE =
+  'Bien. Para contratar un servicio, podés buscar prestadores verificados en la sección Servicios. Si querés, te ayudamos: contanos qué necesitás y te orientamos a la categoría adecuada.';
 
 interface ChatbotPanelProps {
   onClose: () => void;
@@ -38,7 +52,47 @@ export function ChatbotPanel({ onClose }: ChatbotPanelProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  function sendMessage(text: string) {
+  function pushBotMessage(text: string, buttons?: Message['buttons']) {
+    setTimeout(() => {
+      const botMsg: Message = {
+        id: crypto.randomUUID(),
+        text,
+        sender: 'bot',
+        buttons,
+      };
+      setMessages((prev) => [...prev, botMsg]);
+    }, 600);
+  }
+
+  function handleIntent(intent: string, label: string) {
+    const userMsg: Message = {
+      id: crypto.randomUUID(),
+      text: label,
+      sender: 'user',
+    };
+    setMessages((prev) => [...prev, userMsg]);
+    setShowSuggestions(false);
+    setInput('');
+
+    if (intent === PROBLEMA_TRABAJO_INTENT) {
+      pushBotMessage(PROBLEMA_CLARIFY_TEXT, [
+        { label: 'Trabajo ya realizado', intent: TRABAJO_REALIZADO_INTENT },
+        { label: 'Estoy por contratar', intent: POR_CONTRATAR_INTENT },
+      ]);
+      return;
+    }
+    if (intent === TRABAJO_REALIZADO_INTENT) {
+      pushBotMessage(TRABAJO_REALIZADO_RESPONSE);
+      return;
+    }
+    if (intent === POR_CONTRATAR_INTENT) {
+      pushBotMessage(POR_CONTRATAR_RESPONSE);
+      return;
+    }
+    pushBotMessage(DEFAULT_RESPONSE);
+  }
+
+  function handleFreeText(text: string) {
     const userMsg: Message = {
       id: crypto.randomUUID(),
       text,
@@ -48,20 +102,25 @@ export function ChatbotPanel({ onClose }: ChatbotPanelProps) {
     setShowSuggestions(false);
     setInput('');
 
-    setTimeout(() => {
-      const botMsg: Message = {
-        id: crypto.randomUUID(),
-        text: BOT_RESPONSE,
-        sender: 'bot',
-      };
-      setMessages((prev) => [...prev, botMsg]);
-    }, 600);
+    // Heuristic match for "problema con un trabajo" typed manually
+    const normalized = text.toLowerCase();
+    if (
+      normalized.includes('problema') &&
+      normalized.includes('trabajo')
+    ) {
+      pushBotMessage(PROBLEMA_CLARIFY_TEXT, [
+        { label: 'Trabajo ya realizado', intent: TRABAJO_REALIZADO_INTENT },
+        { label: 'Estoy por contratar', intent: POR_CONTRATAR_INTENT },
+      ]);
+      return;
+    }
+    pushBotMessage(DEFAULT_RESPONSE);
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!input.trim()) return;
-    sendMessage(input.trim());
+    handleFreeText(input.trim());
   }
 
   return (
@@ -87,15 +146,29 @@ export function ChatbotPanel({ onClose }: ChatbotPanelProps) {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#FAFAF7]">
         {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={
-              msg.sender === 'bot'
-                ? 'bg-white rounded-lg p-3 text-sm max-w-[85%] border border-[#E8E6E1]'
-                : 'bg-[#1E3A5F] text-white rounded-lg p-3 text-sm max-w-[85%] ml-auto'
-            }
-          >
-            {msg.text}
+          <div key={msg.id} className="space-y-2">
+            <div
+              className={
+                msg.sender === 'bot'
+                  ? 'bg-white rounded-lg p-3 text-sm max-w-[85%] border border-[#E8E6E1]'
+                  : 'bg-[#1E3A5F] text-white rounded-lg p-3 text-sm max-w-[85%] ml-auto'
+              }
+            >
+              {msg.text}
+            </div>
+            {msg.buttons && msg.buttons.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {msg.buttons.map((btn) => (
+                  <button
+                    key={btn.intent}
+                    onClick={() => handleIntent(btn.intent, btn.label)}
+                    className="border border-[#1E3A5F] text-[#1E3A5F] text-xs px-3 py-1.5 rounded-full hover:bg-[#1E3A5F] hover:text-white transition-colors"
+                  >
+                    {btn.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         ))}
 
@@ -103,11 +176,11 @@ export function ChatbotPanel({ onClose }: ChatbotPanelProps) {
           <div className="flex flex-wrap gap-2 mt-2">
             {SUGGESTIONS.map((sug) => (
               <button
-                key={sug}
-                onClick={() => sendMessage(sug)}
+                key={sug.intent}
+                onClick={() => handleIntent(sug.intent, sug.label)}
                 className="border border-[#1E3A5F] text-[#1E3A5F] text-xs px-3 py-1.5 rounded-full hover:bg-[#1E3A5F] hover:text-white transition-colors"
               >
-                {sug}
+                {sug.label}
               </button>
             ))}
           </div>

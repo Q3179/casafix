@@ -43,42 +43,30 @@ const MICROBADGES = [
 const PARA_QUIEN = [
   {
     icon: Building2,
-    titulo: 'Inmobiliarias y empresas constructoras',
-    bullets: [
-      'Servicios para tu cartera de propiedades en alquiler',
-      'Cierres de obra con prestadores matriculados',
-      'Reporte mensual y facturación consolidada',
-    ],
+    titulo: 'Inmobiliarias y constructoras',
+    descripcion:
+      'Carteras de propiedades en alquiler y obra residencial coordinada con prestadores matriculados.',
     proximamente: false,
   },
   {
     icon: HardHat,
     titulo: 'Maestros mayores de obra',
-    bullets: [
-      'Subcontratá oficios para tus obras',
-      'Plomeros, electricistas, gasistas matriculados',
-      'Coordinación centralizada en una sola plataforma',
-    ],
+    descripcion:
+      'Subcontratación de oficios técnicos para tus obras con coordinación centralizada.',
     proximamente: false,
   },
   {
     icon: Compass,
-    titulo: 'Estudios y profesionales de arquitectura',
-    bullets: [
-      'Cierres de obra confiables sin demoras',
-      'Prestadores con habilitación al día',
-      'Trazabilidad de cada subcontratación',
-    ],
+    titulo: 'Estudios de arquitectura',
+    descripcion:
+      'Cierre de obra y trazabilidad de cada subcontratación con prestadores habilitados.',
     proximamente: false,
   },
   {
     icon: Users,
-    titulo: 'Administradores de propiedades horizontales',
-    bullets: [
-      'Padrón verificable de proveedores',
-      'Mantenimiento de áreas comunes',
-      'Disponible en una próxima fase',
-    ],
+    titulo: 'Administradores de barrios',
+    descripcion:
+      'Padrón verificable de proveedores y mantenimiento de áreas comunes.',
     proximamente: true,
   },
 ];
@@ -184,79 +172,70 @@ export default function ProfesionalesPage() {
         </div>
       </section>
 
-      {/* Para quién */}
-      <section className="py-16 bg-white">
+      {/* Catálogo de profesionales — movido arriba para que el menú de filtros
+          y los segmentos sean lo primero que ve el usuario después del Hero. */}
+      <section className="py-12 lg:py-16 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-cf-primary text-center mb-3">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
+            <div className="min-w-0">
+              <h2 className="text-3xl font-bold text-cf-primary">
+                Profesionales destacados
+              </h2>
+              <p className="text-base text-cf-text/80 mt-2 max-w-3xl">
+                Inmobiliarias, constructoras, maestros mayores de obra y estudios
+                de arquitectura verificados en zona norte del GBA.
+              </p>
+            </div>
+          </div>
+          <ProfesionalesCatalogo profesionales={profesionales} />
+        </div>
+      </section>
+
+      {/* Para quién — versión compacta: 4 columnas, sin bullets, una línea
+          por segmento. Sirve como recordatorio del valor por audiencia. */}
+      <section className="py-12 lg:py-16 bg-cf-section-cream border-y border-cf-border">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-cf-primary text-center mb-2">
             Para quién es CasaFix Profesionales
           </h2>
-          <p className="text-cf-text-light text-center mb-12 max-w-2xl mx-auto">
-            Adaptamos la plataforma a la lógica de cada actor del mercado profesional.
+          <p className="text-cf-text-light text-center mb-10 max-w-2xl mx-auto">
+            Cada segmento usa la plataforma con una lógica distinta.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {PARA_QUIEN.map((card) => (
               <div
                 key={card.titulo}
-                className={`rounded-xl border p-6 ${
+                className={`rounded-xl border p-5 ${
                   card.proximamente
-                    ? 'bg-cf-section-cream border-dashed border-cf-border opacity-80'
+                    ? 'bg-white/60 border-dashed border-cf-border opacity-80'
                     : 'bg-white border-cf-border'
                 }`}
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-[#1E3A5F]/10 rounded-xl flex items-center justify-center shrink-0">
-                    <card.icon size={24} className="text-cf-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2 flex-wrap">
-                      <h3 className="text-lg font-semibold text-cf-primary">
-                        {card.titulo}
-                      </h3>
-                      {card.proximamente && (
-                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#F4A261]/10 text-[#F4A261]">
-                          PRÓXIMAMENTE
-                        </span>
-                      )}
-                    </div>
-                    <ul className="space-y-2">
-                      {card.bullets.map((b) => (
-                        <li
-                          key={b}
-                          className="flex items-start gap-2 text-sm text-cf-text-light"
-                        >
-                          <CheckCircle2
-                            size={16}
-                            className="text-[#2A9D8F] shrink-0 mt-0.5"
-                          />
-                          <span>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div className="w-10 h-10 bg-[#1E3A5F]/10 rounded-lg flex items-center justify-center mb-3">
+                  <card.icon size={20} className="text-cf-primary" />
                 </div>
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <h3 className="text-base font-semibold text-cf-primary leading-tight">
+                    {card.titulo}
+                  </h3>
+                  {card.proximamente && (
+                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#F4A261]/10 text-[#F4A261]">
+                      PRÓXIMAMENTE
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm text-cf-text-light leading-relaxed">
+                  {card.descripcion}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Catálogo de profesionales */}
-      <section className="py-16 bg-cf-bg">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-cf-primary mb-3">
-            Profesionales destacados
-          </h2>
-          <p className="text-base text-cf-text/80 mb-8 max-w-3xl">
-            Inmobiliarias, constructoras, maestros mayores de obra y estudios de
-            arquitectura verificados en zona norte del Gran Buenos Aires.
-          </p>
-          <ProfesionalesCatalogo profesionales={profesionales} />
-        </div>
-      </section>
-
       {/* Cómo funciona para profesionales */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-cf-bg">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-cf-primary text-center mb-12">
             Cómo funciona para profesionales

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Star } from 'lucide-react';
 import {
@@ -15,13 +15,57 @@ interface Props {
   profesionales: Profesional[];
 }
 
-type TipoFiltro = TipoProfesional | 'todos';
+// Filtro extendido: además de los TipoProfesional individuales y "todos",
+// existe el filtro compuesto 'inmo-cons' que abarca inmobiliaria + constructora
+// (tienen lógica de negocio similar y se presentan juntas).
+type TipoFiltro = TipoProfesional | 'todos' | 'inmo-cons';
 type ServicioFiltro = ServicioCategoria | 'todos';
+
+interface Grupo {
+  id: 'inmo-cons' | 'mmo' | 'arquitectura';
+  titulo: string;
+  descripcion: string;
+  tipos: TipoProfesional[];
+}
+
+const GRUPOS: Grupo[] = [
+  {
+    id: 'inmo-cons',
+    titulo: 'Inmobiliarias y constructoras',
+    descripcion:
+      'Carteras de propiedades en alquiler y empresas de obra residencial.',
+    tipos: ['inmobiliaria', 'constructora'],
+  },
+  {
+    id: 'mmo',
+    titulo: 'Maestros mayores de obra',
+    descripcion: 'Subcontratación de oficios técnicos para obra propia.',
+    tipos: ['mmo'],
+  },
+  {
+    id: 'arquitectura',
+    titulo: 'Estudios de arquitectura',
+    descripcion: 'Cierre de obra y dirección técnica llave en mano.',
+    tipos: ['arquitectura'],
+  },
+];
+
+function tipoFiltroLabel(tipo: TipoFiltro): string {
+  if (tipo === 'todos') return 'Todos';
+  if (tipo === 'inmo-cons') return 'Inmobiliarias y constructoras';
+  return TIPO_PROFESIONAL_LABELS[tipo];
+}
 
 export function ProfesionalesCatalogo({ profesionales }: Props) {
   const [tipoFiltro, setTipoFiltro] = useState<TipoFiltro>('todos');
   const [servicioFiltro, setServicioFiltro] = useState<ServicioFiltro>('todos');
   const [zonaFiltro, setZonaFiltro] = useState<string>('todas');
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const noFilterActive =
+    tipoFiltro === 'todos' &&
+    servicioFiltro === 'todos' &&
+    zonaFiltro === 'todas';
 
   const zonasUnicas = useMemo(
     () => Array.from(new Set(profesionales.flatMap((p) => p.zonas))).sort(),
@@ -31,7 +75,14 @@ export function ProfesionalesCatalogo({ profesionales }: Props) {
   const profesionalesFiltrados = useMemo(
     () =>
       profesionales.filter((p) => {
-        if (tipoFiltro !== 'todos' && p.tipo !== tipoFiltro) return false;
+        if (tipoFiltro !== 'todos') {
+          if (tipoFiltro === 'inmo-cons') {
+            if (p.tipo !== 'inmobiliaria' && p.tipo !== 'constructora')
+              return false;
+          } else if (p.tipo !== tipoFiltro) {
+            return false;
+          }
+        }
         if (servicioFiltro !== 'todos' && !p.servicios.includes(servicioFiltro))
           return false;
         if (zonaFiltro !== 'todas' && !p.zonas.includes(zonaFiltro)) return false;
@@ -40,8 +91,24 @@ export function ProfesionalesCatalogo({ profesionales }: Props) {
     [profesionales, tipoFiltro, servicioFiltro, zonaFiltro],
   );
 
+  function activarSegmento(grupoId: Grupo['id']) {
+    setTipoFiltro(grupoId);
+    setServicioFiltro('todos');
+    setZonaFiltro('todas');
+    // Pequeño scroll al top del catálogo para que el usuario vea los resultados
+    requestAnimationFrame(() => {
+      containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  function limpiarFiltros() {
+    setTipoFiltro('todos');
+    setServicioFiltro('todos');
+    setZonaFiltro('todas');
+  }
+
   return (
-    <div>
+    <div ref={containerRef}>
       {/* Filtros */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 p-4 bg-cf-section-cream border border-cf-border rounded-lg">
         <div className="space-y-1">
@@ -58,8 +125,7 @@ export function ProfesionalesCatalogo({ profesionales }: Props) {
             className="w-full px-3 py-2 border border-cf-border rounded-md bg-white text-sm outline-none focus:border-cf-primary"
           >
             <option value="todos">Todos los tipos</option>
-            <option value="inmobiliaria">Inmobiliarias</option>
-            <option value="constructora">Constructoras</option>
+            <option value="inmo-cons">Inmobiliarias y constructoras</option>
             <option value="mmo">Maestros mayores de obra</option>
             <option value="arquitectura">Estudios de arquitectura</option>
           </select>
@@ -112,25 +178,87 @@ export function ProfesionalesCatalogo({ profesionales }: Props) {
         </div>
       </div>
 
-      {/* Resultados */}
-      <p className="text-sm text-cf-text-muted mb-4">
-        {profesionalesFiltrados.length} profesional
-        {profesionalesFiltrados.length !== 1 ? 'es' : ''} disponible
-        {profesionalesFiltrados.length !== 1 ? 's' : ''}
-      </p>
-
-      {profesionalesFiltrados.length === 0 ? (
-        <div className="bg-white border border-cf-border rounded-xl p-8 text-center">
-          <p className="text-cf-text-light">
-            No hay profesionales que coincidan con los filtros. Probá con otra
-            combinación.
-          </p>
+      {noFilterActive ? (
+        // VISTA AGRUPADA POR SEGMENTO — default cuando no hay filtros activos.
+        // Cada segmento tiene un encabezado con título clickeable + "Ver todos →"
+        // que activa el filtro de tipo y pasa a la vista plana focalizada.
+        <div className="space-y-12">
+          {GRUPOS.map((grupo) => {
+            const cards = profesionales.filter((p) =>
+              grupo.tipos.includes(p.tipo),
+            );
+            if (cards.length === 0) return null;
+            return (
+              <section key={grupo.id}>
+                <div className="flex items-end justify-between gap-3 mb-4 pb-3 border-b border-cf-border">
+                  <div className="min-w-0">
+                    <h3 className="text-xl font-semibold text-cf-primary">
+                      {grupo.titulo}{' '}
+                      <span className="text-cf-text-muted font-normal">
+                        ({cards.length})
+                      </span>
+                    </h3>
+                    <p className="text-sm text-cf-text-light mt-0.5">
+                      {grupo.descripcion}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => activarSegmento(grupo.id)}
+                    className="text-sm font-medium text-cf-primary hover:underline shrink-0 whitespace-nowrap"
+                  >
+                    Ver detalle →
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {cards.map((prof) => (
+                    <ProfesionalCard key={prof.id} profesional={prof} />
+                  ))}
+                </div>
+              </section>
+            );
+          })}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {profesionalesFiltrados.map((prof) => (
-            <ProfesionalCard key={prof.id} profesional={prof} />
-          ))}
+        // VISTA PLANA FILTRADA — cuando hay cualquier filtro activo.
+        <div>
+          <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
+            <p className="text-sm text-cf-text-muted">
+              <span className="font-medium text-cf-text">
+                {profesionalesFiltrados.length}
+              </span>{' '}
+              profesional
+              {profesionalesFiltrados.length !== 1 ? 'es' : ''}
+              {tipoFiltro !== 'todos' && (
+                <>
+                  {' · '}
+                  <span className="text-cf-text">
+                    {tipoFiltroLabel(tipoFiltro)}
+                  </span>
+                </>
+              )}
+            </p>
+            <button
+              onClick={limpiarFiltros}
+              className="text-sm font-medium text-cf-primary hover:underline"
+            >
+              Limpiar filtros
+            </button>
+          </div>
+
+          {profesionalesFiltrados.length === 0 ? (
+            <div className="bg-white border border-cf-border rounded-xl p-8 text-center">
+              <p className="text-cf-text-light">
+                No hay profesionales que coincidan con los filtros. Probá con otra
+                combinación.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {profesionalesFiltrados.map((prof) => (
+                <ProfesionalCard key={prof.id} profesional={prof} />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -16,6 +16,8 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { ComisionInfo } from '@/components/shared/ComisionInfo';
+import { ProfesionalesCatalogo } from '@/components/profesionales/ProfesionalesCatalogo';
+import { profesionales } from '@/lib/data/profesionales';
 
 export const metadata: Metadata = {
   title: 'CasaFix para profesionales — Inmobiliarias, constructoras, arquitectos',
@@ -239,8 +241,22 @@ export default function ProfesionalesPage() {
         </div>
       </section>
 
-      {/* Cómo funciona para profesionales */}
+      {/* Catálogo de profesionales */}
       <section className="py-16 bg-cf-bg">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-cf-primary mb-3">
+            Profesionales destacados
+          </h2>
+          <p className="text-base text-cf-text/80 mb-8 max-w-3xl">
+            Inmobiliarias, constructoras, maestros mayores de obra y estudios de
+            arquitectura verificados en zona norte del Gran Buenos Aires.
+          </p>
+          <ProfesionalesCatalogo profesionales={profesionales} />
+        </div>
+      </section>
+
+      {/* Cómo funciona para profesionales */}
+      <section className="py-16 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-cf-primary text-center mb-12">
             Cómo funciona para profesionales

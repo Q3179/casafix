@@ -17,9 +17,12 @@ export function Categorias() {
           <button className="pb-3 text-sm font-semibold text-cf-primary border-b-2 border-cf-accent">
             Servicios de oficio
           </button>
-          <button className="pb-3 text-sm text-cf-text-muted cursor-not-allowed" disabled>
-            Servicios profesionales
-          </button>
+          <Link
+            href="/profesionales"
+            className="pb-3 text-sm font-medium text-cf-text-light hover:text-cf-primary transition-colors"
+          >
+            Servicios profesionales →
+          </Link>
         </div>
 
         {/* Grid */}

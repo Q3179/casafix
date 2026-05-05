@@ -3,6 +3,20 @@
 // cómo trabajan típicamente cada uno de estos roles en el mercado argentino.
 // Pendiente de validación con encuesta dirigida.
 
+// BACKLOG (anti-bypass / disintermediación):
+// Los `nombre` y `whatsapp` no deben mostrarse en plano en la vista pública.
+// Riesgo: si el cliente ve el nombre completo + WhatsApp, puede contactar al
+// profesional fuera de la plataforma y bypasear la comisión.
+// Estrategia propuesta cuando se aborde:
+//   1. Catálogo y detalle muestran nombre enmascarado (ej: "Rivera E.",
+//      "Constructora — Tigre", o tipo + ID interno).
+//   2. WhatsApp pasa por una ruta interna /api/contacto/[id] que redirige
+//      a wa.me sólo después de loguear el contacto (para tracking + métrica).
+//   3. Nombre completo + WhatsApp directo se revelan recién cuando el cliente
+//      paga el match o envía la cotización formal (commitment al funnel).
+// Aplica fuerte a Profesionales (B2B con cartera repetida = mayor leak).
+// Para Oficios (PRESTADORES_MOCK) es menos crítico por ticket único.
+
 export type TipoProfesional =
   | 'inmobiliaria'
   | 'constructora'

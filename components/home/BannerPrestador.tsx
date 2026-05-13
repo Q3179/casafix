@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Wallet, MapPin, Handshake } from 'lucide-react';
+import { Wallet, MapPin } from 'lucide-react';
 
 const PUNTOS = [
   {
@@ -13,12 +13,6 @@ const PUNTOS = [
     titulo: 'Trabajos cerca tuyo',
     descripcion:
       'Pedidos verificados en barrios privados de zona norte del GBA, con dirección clara y alcance definido.',
-  },
-  {
-    icon: Handshake,
-    titulo: 'Acompañamiento si algo falla',
-    descripcion:
-      'Si hay un desacuerdo con el cliente, intervenimos para mediar entre las partes.',
   },
 ];
 
@@ -36,7 +30,7 @@ export function BannerPrestador() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 max-w-4xl mx-auto">
           {PUNTOS.map((p) => (
             <div
               key={p.titulo}

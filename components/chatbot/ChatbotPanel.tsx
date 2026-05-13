@@ -27,7 +27,7 @@ const PROBLEMA_CLARIFY_TEXT =
   'Antes de seguir, ¿te referís a un trabajo que YA SE REALIZÓ y tuviste un problema con el resultado? ¿O es un trabajo que estás por contratar?';
 
 const TRABAJO_REALIZADO_RESPONSE =
-  'Entendido. Si el trabajo ya se realizó y tuviste un problema, podemos abrir un caso de mediación. Un asesor te va a contactar en breve para revisar las evidencias (fotos antes/después y descripción) y mediar entre las partes.';
+  'Entendido. Si el trabajo ya se realizó y querés reportar un problema, escribinos por WhatsApp con los detalles y la documentación que tengas (foto antes/después, descripción). Vemos cómo seguir caso por caso.';
 
 const POR_CONTRATAR_RESPONSE =
   'Bien. Para contratar un servicio, podés buscar prestadores verificados en la sección Servicios. Si querés, te ayudamos: contanos qué necesitás y te orientamos a la categoría adecuada.';

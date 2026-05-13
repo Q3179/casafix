@@ -2,7 +2,6 @@ import {
   ArtVigenteIcon,
   AntecedentesIcon,
   PagoProtegidoIcon,
-  MediacionIcon,
 } from '@/components/icons/ProteccionIcons';
 
 const ITEMS = [
@@ -21,11 +20,6 @@ const ITEMS = [
     titulo: 'Pago retenido',
     descripcion: 'Tu dinero queda retenido hasta que confirmés que el trabajo está bien.',
   },
-  {
-    icon: MediacionIcon,
-    titulo: 'Mediamos si algo falla',
-    descripcion: 'Si hay un problema, intervenimos para encontrar una solución justa.',
-  },
 ];
 
 export function Proteccion() {
@@ -36,13 +30,13 @@ export function Proteccion() {
           Protección CasaFix
         </p>
         <h2 className="text-3xl font-bold text-cf-primary mb-3">
-          Mediamos y acompañamos cuando algo no sale bien
+          Trabajá con respaldo en cada contratación
         </h2>
         <p className="text-cf-text-light mb-10">
-          Más respaldo y menos fricción en cada contratación.
+          Prestadores verificados, pago retenido y seguros al día.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {ITEMS.map((item) => (
             <div
               key={item.titulo}

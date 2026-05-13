@@ -4,13 +4,12 @@ import {
   ArtVigenteIcon,
   AntecedentesIcon,
   PagoProtegidoIcon,
-  MediacionIcon,
 } from '@/components/icons/ProteccionIcons';
 import { ComisionInfo } from '@/components/shared/ComisionInfo';
 
 export const metadata: Metadata = {
   title: 'Protección CasaFix — Cómo te cuidamos',
-  description: 'Conocé las 4 capas de protección que tenés al contratar con CasaFix.',
+  description: 'Conocé las 3 capas de protección que tenés al contratar con CasaFix.',
 };
 
 const CAPAS = [
@@ -48,17 +47,6 @@ const CAPAS = [
       'Para trabajos con materiales, el adelanto correspondiente se libera al inicio contra comprobante. Solo el monto de mano de obra queda retenido.',
     ],
   },
-  {
-    icon: MediacionIcon,
-    titulo: 'Mediación si algo falla',
-    descripcion:
-      'Si hay un desacuerdo con el prestador, intervenimos para mediar entre las partes y encontrar una salida razonable. Acompañamos el proceso, sin garantizar el resultado final.',
-    items: [
-      'Equipo dedicado de mediación',
-      'Análisis de evidencias (fotos antes/después)',
-      'Resolución en menos de 48 horas hábiles',
-    ],
-  },
 ];
 
 export default function ProteccionPage() {
@@ -71,10 +59,11 @@ export default function ProteccionPage() {
             Protección CasaFix
           </p>
           <h1 className="text-4xl font-bold text-white mb-4">
-            Mediamos y acompañamos cuando algo no sale bien
+            Trabajá con respaldo en cada contratación
           </h1>
           <p className="text-lg text-white/80">
-            Conocé las 4 capas de protección que tenés al contratar con CasaFix.
+            Verificamos prestadores, retenemos el pago y exigimos seguros vigentes.
+            Estas son las 3 capas de protección que tenés al contratar con CasaFix.
           </p>
         </div>
       </section>

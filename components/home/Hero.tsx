@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, DollarSign, Lock, Users, Search } from 'lucide-react';
+import { ShieldCheck, DollarSign, Lock, Camera, Search } from 'lucide-react';
 import Link from 'next/link';
 import { CATEGORIAS_OFICIO } from '@/lib/mock-data';
 
@@ -10,7 +10,7 @@ const MICROBADGES = [
   { icon: ShieldCheck, label: 'Prestadores verificados' },
   { icon: DollarSign, label: 'Precios claros' },
   { icon: Lock, label: 'Pago retenido' },
-  { icon: Users, label: 'Mediación si falla' },
+  { icon: Camera, label: 'Foto antes/después' },
 ];
 
 export function Hero() {

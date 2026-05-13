@@ -102,7 +102,6 @@ const BENEFICIOS = [
   'Prestadores verificados con ART vigente y antecedentes chequeados',
   'Presupuestos siempre por escrito, no más acuerdos verbales',
   'Pago retenido hasta tu confirmación',
-  'Mediación si hay desacuerdo con el prestador',
   'Reporte mensual de servicios y facturación consolidada',
 ];
 
